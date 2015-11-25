@@ -1,0 +1,4 @@
+firstnames = 'Albert Aaron Ari Alexander Blaine Blayne Brad Bradly Collin Cody Chris Calvin Daniel Dan Dave David Eli Elliot Eddy Edward Frank Francis Fredrick Fred Gabriel Gabe Gregory Greg Hugo Hugh Hank Henry Ian Isaac Ivan Jack Jake Jamie Jim Kaden Kyle Kane Kevin Leeroy Leonard Larry Lawrence Matt Matthew Max Marc Neil Nate Nathan Nolan Oscar Oliver Ollie Owen Peter Patrick Pedro Phillip Quin Quinton Quincy Reese Ray Rick Richard Sam Samuel Sammy Samson Thomas Tim Timothy Tom Ulysses Uthar Victor Vincent Vinnie Walt Walter Wayne Wyatt Xander Yohan Yakov Yusuf Zack Zackary Zayne Zach'.split()
+
+lastnames = 'Jackson Smith Rutherford Robinson Tucker Parker Martin Rodriguez Davis Miller Jones Johnson White Gray Black Carter Anderson Clark Lewis Young Oldman Evans Price Reynolds Sanders Ross Jenkins Howard Cooper Morris Flores Fisher Coleman McDonald Woods Gibson Bryant Wallace Washington Janson SwensonMcCarthy Clement Muller Albriech Zhang Zimmerman'.split()
+

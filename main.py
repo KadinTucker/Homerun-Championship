@@ -2,16 +2,48 @@
 This is a program which initializes the library pygame, then runs a loop.
 """
 
+import random
 import pygame
 from pygame.locals import *
 import sys
-    
-def terminate():
+
+SOUND_NAMES = ['fanfare']
+SOUND_FILES = {'fanfare' : 'start_fanfare.wav'}
+
+PLAYER_FACES = ['confidenceFace.png', 'determineFace.png']
+
+class player():
     """
-    Stop all functions of the program.
+    A player class, with playing statistics, various methods of play, and images to display.
     """
-    pygame.quit()
-    sys.exit()
+    def __init__(self):
+        try:
+            import names
+        except:
+            print('ERROR: Missing file \'names.py\'. Terminating...')
+            terminate()
+        self.name = random.choice(names.firstnames) + ' ' + random.choice(names.lastnames)
+        self.stamina = 0
+        self.speed = 0
+        self.field = 0
+        self.batting = 0
+        
+    def setStats(self):
+        trials = 15
+        while trials > 0:
+            stat = random.randint(1, 4)
+            if stat == 1 and self.stamina <= 5:
+                self.stamina += 1
+                trials -= 1
+            elif stat == 2 and self.speed <= 5:
+                self.stamina += 1
+                trials -= 1
+            elif stat == 3 and self.field <= 5:
+                self.stamina += 1
+                trials -= 1
+            elif stat == 4 and self.batting <= 5:
+                self.stamina += 1
+                trials -= 1
 
 class button():
     """
@@ -49,7 +81,14 @@ class button():
         """
         display.blit(self.image, self.location)
 
-def checkButtons(buttons):
+def terminate():
+    """
+    Stop all functions of the program.
+    """
+    pygame.quit()
+    sys.exit()
+
+def checkButtons(buttons, sounds):
     """
     Checks whether the ID of all buttons being pressed checks out with any pre-determined functions
     of specific buttons. If the function goes through and nothing happens, the button becomes un-pressed.
@@ -68,10 +107,22 @@ def checkButtons(buttons):
                 print('ERROR: Quit not gone through.')
             if i.identity == 'play':
                 print('CONSOLE: Play button pressed.')
+                sounds['fanfare'].play()
                 return 2
         else:
             i.pressed == False
     return 1
+
+def draftPlayers():
+    """
+    Creates random players 
+    """
+    team = []
+    while len(team) < 8:
+        draftpicks = [player(), player(), player()]
+        for i in draftpicks:
+            i.setStats()
+        
 
 def initButtons():
     """
@@ -80,10 +131,19 @@ def initButtons():
     Returns a list of all buttons in the main menu.
     """
     buttons = []
-    buttons.append(button((150, 150), 'quit', pygame.image.load('quitbutton.png')))
+    buttons.append(button((150, 210), 'quit', pygame.image.load('quitbutton.png')))
     buttons.append(button((100, 20), None, pygame.image.load('title.png')))
-    buttons.append(button((150, 210), 'play', pygame.image.load('playbutton.png')))
+    buttons.append(button((150, 150), 'play', pygame.image.load('playbutton.png')))
     return buttons
+
+def initSounds():
+    """
+    Adds a list of sounds to be used in the game.
+    """
+    sounds = {}
+    for sound_name in SOUND_NAMES:
+        sounds[sound_name] = pygame.mixer.Sound(SOUND_FILES[sound_name])
+    return sounds
 
 def initialize():
     """
@@ -93,13 +153,15 @@ def initialize():
     """
     print('CONSOLE: Initializing loop...')
     pygame.init()
+    pygame.mixer.init()
+    sounds = initSounds()
     display = pygame.display.set_mode((500, 400))
     buttons = initButtons()
     gamestate = 1 #Gamestate 1 is the main menu.
     print('CONSOLE: Init complete. Starting loop.')
-    return buttons, gamestate, display
+    return buttons, gamestate, display, sounds
 
-def runProgram(buttons, gamestate, display):
+def runProgram(buttons, gamestate, display, sounds):
     """
     Run the program main loop
 
@@ -115,7 +177,7 @@ def runProgram(buttons, gamestate, display):
                             i.buttonPressed()
                 if event.type == QUIT:
                     terminate()
-            gamestate = checkButtons(buttons)
+            gamestate = checkButtons(buttons, sounds)
             for i in buttons:
                 i.displayButtons(display)
                 
@@ -135,8 +197,8 @@ def main():
     """
     Initialize data, then run the program.
     """
-    buttons, gamestate, display = initialize()
-    runProgram(buttons, gamestate, display)
+    buttons, gamestate, display, sounds = initialize()
+    runProgram(buttons, gamestate, display, sounds)
 
 if __name__ == '__main__':
     main()
